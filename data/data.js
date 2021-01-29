@@ -19,8 +19,12 @@ var APP_DATA = {
                 {
                     "yaw": 2.6,
                     "pitch": -0.12,
-                    "title": "Informasi",
-                    "text": "Lorem ipsum"
+                    "title": "Login",
+                },
+                {
+                    "yaw": 2.7,
+                    "pitch": -0.12,
+                    "title": "Registrasi",
                 }
             ],
         }

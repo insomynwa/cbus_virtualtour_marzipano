@@ -7,7 +7,7 @@ $(function () {
     var data = window.APP_DATA;
 
     // Grab element from DOM
-    var panoCanvas = document.querySelector("#pano-canvas");
+    var panoCanvas = $("#pano-canvas")[0];
 
     // Detect desktop or mobile mode
     if (window.matchMedia) {
@@ -81,6 +81,21 @@ $(function () {
             pinFirstLevel: true
         });
 
+        // Create Info Hotspot
+        var hotspotContainer = scene.hotspotContainer();
+        hotspotContainer.createHotspot(
+            $("#ihs-login-form")[0],
+            { yaw: 2.6, pitch: 0.1 }
+        );
+        hotspotContainer.createHotspot(
+            $("#ihs-register-form")[0],
+            { yaw: 3.2, pitch: 0.1 }
+        );
+        hotspotContainer.createHotspot(
+            $("#ihs-user")[0],
+            { yaw: 2.6, pitch: 0.1 }
+        );
+
         return {
             data: data,
             scene: scene,
@@ -96,6 +111,6 @@ $(function () {
     }
 
     function createInfoHotspotElement(hotspot){
-        
+
     }
 });
