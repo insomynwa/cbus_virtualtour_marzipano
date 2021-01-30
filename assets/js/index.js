@@ -101,7 +101,7 @@ $(function () {
                     // console.log(snapshot.val());
                     // console.log(userData);
                     // console.log(testUserData);
-                    createScene(true, userData);
+                    createScene(userData);
                 });
 
             //$("#ihs-user").addClass("w3-show").removeClass("w3-hide");
@@ -121,7 +121,7 @@ $(function () {
 
             var guestData = window.APP_DATA;
             data.scenes = guestData.scenes;
-            createScene(false, guestData);
+            createScene(guestData);
             //data = window.APP_DATA;
             // console.log(data);
             // $("#ihs-login-form").removeClass("w3-hide").addClass("w3-show");
