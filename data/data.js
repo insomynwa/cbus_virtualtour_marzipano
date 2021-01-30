@@ -4,35 +4,75 @@ var APP_DATA = {
             "id": "scene_01",
             "name": "scene_01",
             "levels": [
-                { "tileSize": 256, "size": 256, "fallbackOnly": true },
-                { "tileSize": 512, "size": 512 },
-                { "tileSize": 512, "size": 1024 }
+                {
+                    "tileSize": 256,
+                    "size": 256,
+                    "fallbackOnly": true
+                },
+                {
+                    "tileSize": 512,
+                    "size": 512
+                },
+                {
+                    "tileSize": 512,
+                    "size": 1024
+                }
             ],
             "faceSize": 1000,
             "initialViewParameters": {
-                "yaw": 2.6,
-                "pitch": 0.13808604303884842,
+                "yaw": -0.9639214039841448,
+                "pitch": -0.03480265243788949,
                 "fov": 1.3544032240414072
             },
-            "linkHotspots": [],
-            "infoHotspots": [
+            "linkHotspots": [
                 {
-                    "yaw": 2.6,
-                    "pitch": -0.12,
-                    "title": "Login",
-                },
-                {
-                    "yaw": 2.7,
-                    "pitch": -0.12,
-                    "title": "Registrasi",
+                    "yaw": -1.0346346110321196,
+                    "pitch": 0.022879362891034205,
+                    "rotation": 11.780972450961727,
+                    "target": "scene_02"
                 }
             ],
+            "infoHotspots": []
+        },
+        {
+            "id": "scene_02",
+            "name": "scene_02",
+            "levels": [
+                {
+                    "tileSize": 256,
+                    "size": 256,
+                    "fallbackOnly": true
+                },
+                {
+                    "tileSize": 512,
+                    "size": 512
+                },
+                {
+                    "tileSize": 512,
+                    "size": 1024
+                }
+            ],
+            "faceSize": 1000,
+            "initialViewParameters": {
+                "yaw": 1.2282702813548632,
+                "pitch": 0.14508473091724028,
+                "fov": 1.3544032240414072
+            },
+            "linkHotspots": [
+                {
+                    "yaw": -1.619867005026876,
+                    "pitch": 0.16168833640911728,
+                    "rotation": 0,
+                    "target": "scene_01"
+                }
+            ],
+            "infoHotspots": []
         }
-    ],
-    "settings": {
-        "mouseViewMode": "drag",
-        "autorotateEnabled": false,
-        "fullscreenButton": false,
-        "viewControlButtons": false,
-    }
+    ]
+};
+var APP_SETTING = {
+    mouseViewMode: "drag",
+    autorotateEnabled: false,
+    fullscreenButton: false,
+    viewControlButtons: false,
 };

@@ -1,24 +1,6 @@
 "use strict";
 
 $(function () {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            $("#ihs-login-form").removeClass("w3-show").addClass("w3-hide");
-            $("#ihs-register-form").removeClass("w3-show").addClass("w3-hide");
-
-            $("#ihs-user").removeClass("w3-hide").addClass("w3-show");
-            firebase.database().ref('/users/' + user.uid).once('value')
-            .then((snapshot) => {
-                var name = (snapshot.val() && snapshot.val().name) || 'Anonymous';
-                $("#user-data").append("<p>"+ name + "</p>");
-            });
-
-        } else {
-            $("#ihs-login-form").removeClass("w3-hide").addClass("w3-show");
-            $("#ihs-register-form").removeClass("w3-hide").addClass("w3-show");
-            $("#ihs-user").removeClass("w3-show").addClass("w3-hide");
-        }
-    });
 
     $("#login-form").submit(function (e) {
         e.preventDefault();
@@ -30,6 +12,8 @@ $(function () {
             .signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 var user = userCredential.user;
+                $("#login-form-modal").hide();
+                $("#user-data").text(name);
             })
             .catch((error) => {
                 var errorCode = error.code;
@@ -67,6 +51,8 @@ $(function () {
                         name: name,
                         phone: phone
                     });
+                    $("#register-form-modal").hide();
+                    $("#user-data").text(name);
                 })
                 .catch((error) => {
                     var errorCode = error.code;
@@ -76,7 +62,8 @@ $(function () {
         }
     });
 
-    $("#user-logout").click(function (e) {
+    // $("#logout-button").click(function (e) {
+    $(document).on('click', '#logout-button', function(e){
         e.preventDefault();
         firebase
             .auth()

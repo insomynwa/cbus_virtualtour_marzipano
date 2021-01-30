@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+    <title>Welcome</title>
+    <style>
+        @-ms-viewport {
+            width: device-width;
+        }
+    </style>
+    <link rel="stylesheet" href="assets/css/w3.css">
+    <link rel="stylesheet" href="assets/css/reset.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div id="pano-canvas"></div>
+
+    <div id="room-list">
+        <ul class="rooms">
+
+            <a href="javascript:void(0)" class="room" data-id="scene_01">
+                <li class="text">scene_01</li>
+            </a>
+
+            <a href="javascript:void(0)" class="room" data-id="scene_02">
+                <li class="text">scene_02</li>
+            </a>
+
+            <!-- <a href="javascript:void(0)" class="room" data-id="scene_03">
+                <li class="text">scene_03</li>
+            </a>
+
+            <a href="javascript:void(0)" class="room" data-id="scene_04">
+                <li class="text">scene_04</li>
+            </a>
+
+            <a href="javascript:void(0)" class="room" data-id="scene_05">
+                <li class="text">scene_05</li>
+            </a>
+
+            <a href="javascript:void(0)" class="room" data-id="scene_06">
+                <li class="text">scene_06</li>
+            </a> -->
+
+        </ul>
+    </div>
+
+    <div id="title-bar">
+        <h1></h1>
+    </div>
+
+    <a href="javascript:void(0)" id="room-list-toggle">
+      <img class="icon off" src="assets/img/expand.png">
+      <img class="icon on" src="assets/img/collapse.png">
+    </a>
+
+    <div class="w3-container">
+        <a id="login-button" class="guest-nav visible"
+            onclick="document.getElementById('login-form-modal').style.display='block'"><i
+                class="material-icons">power</i> Login</a>
+
+        <div id="login-form-modal" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                <div class="w3-center"><br>
+                    <span onclick="document.getElementById('login-form-modal').style.display='none'"
+                        class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                </div>
+                <form id="login-form" class="w3-container" action="post">
+                    <div class="w3-section">
+                        <label><b>Email</b></label>
+                        <input id="login-email" class="w3-input w3-border w3-margin-bottom" type="email"
+                            placeholder="Enter Email" name="login-email" required>
+                        <label><b>Password</b></label>
+                        <input id="login-password" class="w3-input w3-border" type="password"
+                            placeholder="Enter Password" name="login-password" required>
+                        <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+                        <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
+                    </div>
+                </form>
+
+                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                    <button onclick="document.getElementById('login-form-modal').style.display='none'" type="button"
+                        class="w3-button w3-red">Cancel</button>
+                    <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <a id="register-button" class="guest-nav visible"
+            onclick="document.getElementById('register-form-modal').style.display='block'"><i
+                class="material-icons">post_add</i> Register</a>
+
+        <div id="register-form-modal" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                <div class="w3-center"><br>
+                    <span onclick="document.getElementById('register-form-modal').style.display='none'"
+                        class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                </div>
+                <form id="register-form" class="w3-container" action="post">
+                    <div class="w3-section">
+                        <label><b>Name</b></label>
+                        <input id="register-name" class="w3-input w3-border w3-margin-bottom" type="text"
+                            placeholder="Enter Name" name="register-name" required>
+                        <label><b>Phone</b></label>
+                        <input id="register-phone" class="w3-input w3-border w3-margin-bottom" type="text"
+                            placeholder="Enter Phone" name="register-phone" required>
+                        <label><b>Email</b></label>
+                        <input id="register-email" class="w3-input w3-border w3-margin-bottom" type="email"
+                            placeholder="Enter Email" name="register-email" required>
+                        <label><b>Confirm Email</b></label>
+                        <input id="register-reemail" class="w3-input w3-border w3-margin-bottom" type="email"
+                            placeholder="Enter Email" name="register-reemail" required autocomplete="false">
+                        <label><b>Password</b></label>
+                        <input id="register-password" class="w3-input w3-border" type="password"
+                            placeholder="Enter Password" name="register-password" required>
+                        <label><b>Confirm Password</b></label>
+                        <input id="register-repassword" class="w3-input w3-border" type="password"
+                            placeholder="Enter Password" name="register-repassword" required autocomplete="false">
+                        <button class="w3-button w3-block w3-green w3-section w3-padding"
+                            type="submit">Register</button>
+                    </div>
+                </form>
+
+                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                    <button onclick="document.getElementById('login-form-modal').style.display='none'" type="button"
+                        class="w3-button w3-red">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div id="ihs-login-form">
+        <div id="ihs-login-form-header"><a><i class="material-icons">power</i> Login</a></div>
+        <form id="login-form" class="w3-hides" method="post">
+            <div>
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email">
+            </div>
+            <div>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password">
+            </div>
+            <button type="submit" id="login-submit">Login</button>
+        </form>
+    </div> -->
+    <!-- <div id="ihs-register-form">
+        <div id="ihs-register-form-header"><a><i class="material-icons">post_add</i> Register</a></div>
+        <form id="register-form" class="w3-hides" method="post">
+            <div>
+                <label for="register-name">Name:</label>
+                <input type="text" id="register-name" required>
+            </div>
+            <div>
+                <label for="register-phone">Phone:</label>
+                <input type="text" id="register-phone" required>
+            </div>
+            <div>
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div>
+                <label for="register-reemail">Confirm Email:</label>
+                <input type="email" id="register-reemail" autocomplete="disable" required>
+            </div>
+            <div>
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <div>
+                <label for="register-repassword">Confirm Password:</label>
+                <input type="password" id="register-repassword" autocomplete="disable" required>
+            </div>
+            <button type="submit" id="register-submit">Register</button>
+        </form>
+    </div> -->
+
+    <p id="user-data" class="user-nav"></p>
+    <a id="logout-button" class="user-nav"><i class="material-icons">power_off</i> Log Out</a>
+
+    <script src="assets/js/screenfull.min.js"></script>
+    <script src="assets/js/bowser.min.js"></script>
+    <script src="assets/js/marzipano.js"></script>
+    <script src="assets/js/jquery.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyD-iQhsuXqNwf5KQbqe6gcsWx2VaddVdq8",
+            authDomain: "cbus-virtualtour.firebaseapp.com",
+            databaseURL: "https://cbus-virtualtour-default-rtdb.firebaseio.com/",
+            projectId: "cbus-virtualtour",
+            storageBucket: "cbus-virtualtour.appspot.com",
+            messagingSenderId: "71164967146",
+            appId: "1:71164967146:web:a99e456c27eefefef2ff93",
+            measurementId: "G-MYGTV8L0YR"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var database = firebase.database();
+        firebase.analytics();
+    </script>
+
+    <script src="assets/js/fbase.js"></script>
+    <script src="data/data.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>
