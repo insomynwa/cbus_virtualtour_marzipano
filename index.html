@@ -59,8 +59,13 @@
       <img class="icon on" src="assets/img/collapse.png">
     </a>
 
+    <a href="javascript:void(0)" id="full-screen-toggle">
+      <img class="icon off" src="assets/img/fullscreen.png">
+      <img class="icon on" src="assets/img/windowed.png">
+    </a>
+
     <div class="w3-container">
-        <a id="login-button" class="guest-nav visible"
+        <a id="login-button" class="guest-nav"
             onclick="document.getElementById('login-form-modal').style.display='block'"><i
                 class="material-icons">power</i> Login</a>
 
@@ -79,7 +84,6 @@
                         <input id="login-password" class="w3-input w3-border" type="password"
                             placeholder="Enter Password" name="login-password" required>
                         <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
-                        <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
                     </div>
                 </form>
 
@@ -94,7 +98,7 @@
     </div>
 
     <div class="w3-container">
-        <a id="register-button" class="guest-nav visible"
+        <a id="register-button" class="guest-nav"
             onclick="document.getElementById('register-form-modal').style.display='block'"><i
                 class="material-icons">post_add</i> Register</a>
 
@@ -220,7 +224,6 @@
         firebase.analytics();
     </script>
 
-    <script src="assets/js/fbase.js"></script>
     <script src="data/data.js"></script>
     <script src="assets/js/index.js"></script>
 </body>

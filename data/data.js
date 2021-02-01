@@ -66,13 +66,20 @@ var APP_DATA = {
                     "target": "scene_01"
                 }
             ],
-            "infoHotspots": []
+            "infoHotspots": [
+                {
+                    "yaw": 1.0,
+                    "pitch": -0.03,
+                    "title": "Pusat Informasi",
+                    "text": "Lorem ipsum dolor sit amet"
+                }
+            ]
         }
     ]
 };
 var APP_SETTING = {
     mouseViewMode: "drag",
     autorotateEnabled: false,
-    fullscreenButton: false,
+    fullscreenButton: true,
     viewControlButtons: false,
 };

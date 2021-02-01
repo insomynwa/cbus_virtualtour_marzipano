@@ -4,10 +4,10 @@ $(function () {
     var Marzipano = window.Marzipano;
     var bowser = window.bowser;
     var screenfull = window.screenfull;
-    var data = {scenes: null};
+    var data = { scenes: null };
 
     var settings = window.APP_SETTING;
-    var latest_scene = 0;
+    var curSceneIndex = 0;
     // var user = firebase.auth().currentUser;
 
     // if(user){
@@ -23,11 +23,7 @@ $(function () {
 
     // Grab element from DOM
     var panoElement = $("#pano-canvas")[0];
-    var roomNameElement = $("#title-bar h1")[0];
-    var roomListElement = $("#room-list")[0];
-    var roomListUlElement = $("#room-list .rooms")[0];
-    var roomElements = document.querySelectorAll("#room-list .room");
-    var roomListToggleElement = $('#room-list-toggle')[0];
+    var fullscreenToggleElement = document.querySelector("#full-screen-toggle");
 
     // Detect desktop or mobile mode
     if (window.matchMedia) {
@@ -35,9 +31,11 @@ $(function () {
             if (mql.matches) {
                 $("body").removeClass("desktop");
                 $("body").addClass("mobile");
+                $(".guest-nav").addClass("hengpon");
             } else {
                 $("body").addClass("desktop");
                 $("body").removeClass("mobile");
+                $(".guest-nav").removeClass("hengpon");
             }
         };
         var mql = matchMedia("(max-width: 500px), (max-height: 500px)");
@@ -59,11 +57,27 @@ $(function () {
         $("body").addClass("tooltip-fallback");
     }
 
+    // Set up fullscreen mode, if supported.
+    if (screenfull.enabled && settings.fullscreenButton) {
+        document.body.classList.add("fullscreen-enabled");
+        fullscreenToggleElement.addEventListener("click", function () {
+            screenfull.toggle();
+        });
+        screenfull.on("change", function () {
+            if (screenfull.isFullscreen) {
+                fullscreenToggleElement.classList.add("enabled");
+            } else {
+                fullscreenToggleElement.classList.remove("enabled");
+            }
+        });
+    } else {
+        document.body.classList.add("fullscreen-disabled");
+    }
+
     /**
      * Start Here
      */
 
-    // console.log(settings);
     // Viewer Options
     var viewerOpts = {
         controls: {
@@ -76,9 +90,6 @@ $(function () {
 
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            // $("#ihs-login-form").removeClass("w3-show").addClass("w3-hide");
-            // $("#ihs-register-form").removeClass("w3-show").addClass("w3-hide");
-
             $(".guest-nav").removeClass("visible");
             $(".user-nav").addClass("visible");
 
@@ -87,24 +98,12 @@ $(function () {
                 .ref("/scenes")
                 .once("value")
                 .then((snapshot) => {
-                    //console.log(snapshot.val());
                     var userData = { scenes: null };
                     userData.scenes = snapshot.val();
                     data.scenes = snapshot.val();
-                    // var testUserData = {scenes: []};
-                    // snapshot.forEach(function(childSnapshot) {
-                    //     var item = childSnapshot.val();
-                    //     item.key = childSnapshot.key;
-
-                    //     testUserData.scenes.push(item);
-                    // });
-                    // console.log(snapshot.val());
-                    // console.log(userData);
-                    // console.log(testUserData);
                     createScene(userData);
                 });
 
-            //$("#ihs-user").addClass("w3-show").removeClass("w3-hide");
             firebase
                 .database()
                 .ref("/users/" + user.uid)
@@ -112,7 +111,6 @@ $(function () {
                 .then((snapshot) => {
                     var name =
                         (snapshot.val() && snapshot.val().name) || "Anonymous";
-                    //$("#user-data").append("<p>"+ name + "</p>");
                     $("#user-data").text(name);
                 });
         } else {
@@ -122,11 +120,6 @@ $(function () {
             var guestData = window.APP_DATA;
             data.scenes = guestData.scenes;
             createScene(guestData);
-            //data = window.APP_DATA;
-            // console.log(data);
-            // $("#ihs-login-form").removeClass("w3-hide").addClass("w3-show");
-            // $("#ihs-register-form").removeClass("w3-hide").addClass("w3-show");
-            //$("#ihs-user").removeClass("w3-show").addClass("w3-hide");
         }
     });
 
@@ -160,7 +153,6 @@ $(function () {
                 view: view,
                 pinFirstLevel: true,
             });
-            // console.log(data.linkHotspots);
 
             // Create Hotspot
             var hotspotContainer = scene.hotspotContainer();
@@ -174,14 +166,26 @@ $(function () {
                 });
             });
 
+            // Link Info Hotspot
+            data.infoHotspots.forEach(function (hotspot) {
+                var element = createInfoHotspotElement(hotspot);
+                scene
+                    .hotspotContainer()
+                    .createHotspot(element, {
+                        yaw: hotspot.yaw,
+                        pitch: hotspot.pitch,
+                    });
+            });
+
             return {
                 data: data,
                 scene: scene,
                 view: view,
             };
         });
-        updateRoomList(scenes);
-        switchScene(scenes[0]);
+        // updateRoomList(scenes);
+        Room.updateList(scenes);
+        switchScene(scenes[curSceneIndex]);
     }
 
     // Create Scenes
@@ -236,57 +240,18 @@ $(function () {
 
     // switchScene(scenes[0]);
 
-    function updateRoomList(scenes){
-        var list = "";
-        roomListUlElement.innerHTML = "";
-        $.each(scenes, function(index, value){
-            // list += `<a href="#" class="room" data-id="${scenes[index].data.id}">
-            //     <li class="text">${scenes[index].data.name}</li>
-            // </a>`;
-            var aWrapper = document.createElement('a');
-            aWrapper.classList.add('room');
-            aWrapper.setAttribute('data-id',scenes[index].data.id);
-            var liWrapper = document.createElement('li');
-            liWrapper.classList.add('text');
-            liWrapper.innerHTML = scenes[index].data.name;
-            aWrapper.appendChild(liWrapper);
-            aWrapper.addEventListener('click', function(){
-                switchScene(scenes[index]);
-            });
-            roomListUlElement.appendChild(aWrapper);
-        });
-        // $("#room-list .rooms").html(list);
-        // $("a.room").click(function (e) { 
-        //     e.preventDefault();
-        //     switchScene(scene)
-        // });
-    }
-
-    function sanitize(s) {
-        return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
-    }
-
     function switchScene(scene) {
         scene.view.setParameters(scene.data.initialViewParameters);
         scene.scene.switchTo();
-        updateSceneName(scene);
-        updateSceneList(scene);
+        Room.updateName(scene.data.name);
+        Scene.updateList(scene.data.id);
     }
 
-    function updateSceneName(scene) {
-        roomNameElement.innerHTML = sanitize(scene.data.name);
-    }
-
-    function updateSceneList(scene) {
-        var roomEls = document.querySelectorAll('#room-list .room');
-        for (var i = 0; i < roomEls.length; i++) {
-            var el = roomEls[i];
-            if (el.getAttribute('data-id') === scene.data.id) {
-                el.classList.add('current');
-            } else {
-                el.classList.remove('current');
-            }
-        }
+    function sanitize(s) {
+        return s
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;");
     }
 
     function createLinkHotspotElement(hotspot) {
@@ -313,7 +278,7 @@ $(function () {
 
         // Add click event handler.
         wrapper.addEventListener("click", function () {
-            switchScene(findSceneById(hotspot.target));
+            switchScene(Scene.findById(hotspot.target));
         });
 
         // Prevent touch and scroll events from reaching the parent element.
@@ -324,7 +289,7 @@ $(function () {
         var tooltip = document.createElement("div");
         tooltip.classList.add("hotspot-tooltip");
         tooltip.classList.add("link-hotspot-tooltip");
-        tooltip.innerHTML = findSceneDataById(hotspot.target).name;
+        tooltip.innerHTML = Scene.findDataById(hotspot.target).name;
 
         wrapper.appendChild(icon);
         wrapper.appendChild(tooltip);
@@ -332,48 +297,279 @@ $(function () {
         return wrapper;
     }
 
-    function findSceneById(id) {
-        for (var i = 0; i < scenes.length; i++) {
-            if (scenes[i].data.id === id) {
-                return scenes[i];
-            }
-        }
-        return null;
-    }
+    function createInfoHotspotElement(hotspot) {
+        // Create wrapper element to hold icon and tooltip.
+        var wrapper = document.createElement("div");
+        wrapper.classList.add("hotspot");
+        wrapper.classList.add("info-hotspot");
 
-    function findSceneDataById(id) {
-      for (var i = 0; i < data.scenes.length; i++) {
-        if (data.scenes[i].id === id) {
-          return data.scenes[i];
-        }
-      }
-      return null;
+        // Create hotspot/tooltip header.
+        var header = document.createElement("div");
+        header.classList.add("info-hotspot-header");
+
+        // Create image element.
+        var iconWrapper = document.createElement("div");
+        iconWrapper.classList.add("info-hotspot-icon-wrapper");
+        var icon = document.createElement("img");
+        icon.src = "assets/img/info.png";
+        icon.classList.add("info-hotspot-icon");
+        iconWrapper.appendChild(icon);
+
+        // Create title element.
+        var titleWrapper = document.createElement("div");
+        titleWrapper.classList.add("info-hotspot-title-wrapper");
+        var title = document.createElement("div");
+        title.classList.add("info-hotspot-title");
+        title.innerHTML = hotspot.title;
+        titleWrapper.appendChild(title);
+
+        // Create close element.
+        var closeWrapper = document.createElement("div");
+        closeWrapper.classList.add("info-hotspot-close-wrapper");
+        var closeIcon = document.createElement("img");
+        closeIcon.src = "assets/img/close.png";
+        closeIcon.classList.add("info-hotspot-close-icon");
+        closeWrapper.appendChild(closeIcon);
+
+        // Construct header element.
+        header.appendChild(iconWrapper);
+        header.appendChild(titleWrapper);
+        header.appendChild(closeWrapper);
+
+        // Create text element.
+        var text = document.createElement("div");
+        text.classList.add("info-hotspot-text");
+        text.innerHTML = hotspot.text;
+
+        // Place header and text into wrapper element.
+        wrapper.appendChild(header);
+        wrapper.appendChild(text);
+
+        // Create a modal for the hotspot content to appear on mobile mode.
+        var modal = document.createElement("div");
+        modal.innerHTML = wrapper.innerHTML;
+        modal.classList.add("info-hotspot-modal");
+        document.body.appendChild(modal);
+
+        var toggle = function () {
+            wrapper.classList.toggle("visible");
+            modal.classList.toggle("visible");
+        };
+
+        // Show content when hotspot is clicked.
+        wrapper
+            .querySelector(".info-hotspot-header")
+            .addEventListener("click", toggle);
+
+        // Hide content when close icon is clicked.
+        modal
+            .querySelector(".info-hotspot-close-wrapper")
+            .addEventListener("click", toggle);
+
+        // Prevent touch and scroll events from reaching the parent element.
+        // This prevents the view control logic from interfering with the hotspot.
+        stopTouchAndScrollEventPropagation(wrapper);
+
+        return wrapper;
     }
 
     // Prevent touch and scroll events from reaching the parent element.
     function stopTouchAndScrollEventPropagation(element, eventList) {
-      var eventList = [ 'touchstart', 'touchmove', 'touchend', 'touchcancel',
-                        'wheel', 'mousewheel' ];
-      for (var i = 0; i < eventList.length; i++) {
-        element.addEventListener(eventList[i], function(event) {
-          event.stopPropagation();
-        });
-      }
+        var eventList = [
+            "touchstart",
+            "touchmove",
+            "touchend",
+            "touchcancel",
+            "wheel",
+            "mousewheel",
+        ];
+        for (var i = 0; i < eventList.length; i++) {
+            element.addEventListener(eventList[i], function (event) {
+                event.stopPropagation();
+            });
+        }
     }
 
-    // $(document).on('click', "a.room", function () {
-    //     var room_id = $(this).attr('data-id');
-    // });
+    var FormModal = {
+        init: function () {
+            this.bindEvents();
+        },
+        bindEvents: function () {
+            $("#login-form").on("submit", this.doLogin);
+            $("#register-form").on("submit", this.doRegister);
+            $("#logout-button").click(this.doLogout);
+        },
+        doLogin: function (e) {
+            e.preventDefault();
+            var email = $("#login-email").val();
+            var password = $("#login-password").val();
 
-    $(document).on('click', "#room-list-toggle", function () {
+            firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // var user = userCredential.user;
+                    $("#login-form-modal").hide();
+                    FormModal.clearLogin();
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log("Gagal Login");
+                });
+        },
+        doRegister: function (e) {
+            e.preventDefault();
+            var name = $("#register-name").val();
+            var phone = $("#register-phone").val();
+            var email = $("#register-email").val();
+            var reemail = $("#register-reemail").val();
+            var password = $("#register-password").val();
 
-        roomListElement.classList.toggle('enabled');
-        roomListToggleElement.classList.toggle('enabled');
-    });
+            if (name.trim().length < 3) {
+                console.log("name failed");
+            } else if (phone.trim().length < 9) {
+                console.log("phone failed");
+            } else if (email.trim() == "") {
+                console.log("email failed");
+            } else if (email != reemail) {
+                console.log("email reemail failed");
+            } else if (password.trim().length < 7) {
+                console.log("password failed");
+            } else {
+                firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        var user = userCredential.user;
 
-    // $(document).on('click', ".rooms", function () {
+                        firebase
+                            .database()
+                            .ref("users/" + user.uid)
+                            .set({
+                                name: name,
+                                phone: phone,
+                            });
+                        $("#register-form-modal").hide();
+                        FormModal.clearRegister();
+                        $("#user-data").text(name);
+                    })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        console.log("Gagal Register");
+                    });
+            }
+        },
+        doLogout: function (e) {
+            e.preventDefault();
+            firebase
+                .auth()
+                .signOut()
+                .then(() => {
+                    Scene.updateIndex();
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                });
+        },
+        clearLogin: function () {
+            $("#login-form")
+                .find("input[type=email], input[type=password]")
+                .val("");
+        },
+        clearRegister: function () {
+            $("#register-form")
+                .find(
+                    "input[type=text], input[type=email], input[type=password]"
+                )
+                .val("");
+        },
+    };
+    FormModal.init();
 
-    //     roomListElement.classList.toggle('enabled');
-    //     roomListToggleElement.classList.toggle('enabled');
-    // });
+    var Room = {
+        name: $("#title-bar h1"),
+        listElement: $("#room-list"),
+        listElementWrapper: $("#room-list .rooms")[0],
+        listToggleElement: $("#room-list-toggle"),
+        init: function () {
+            this.bindEvents();
+        },
+        bindEvents: function () {
+            this.listToggleElement.click(this.toggleList);
+        },
+        toggleList: function () {
+            Room.listElement[0].classList.toggle("enabled");
+            this.classList.toggle("enabled");
+        },
+        updateList: function (scenes) {
+            this.listElementWrapper.innerHTML = "";
+            $.each(scenes, function (index, value) {
+                var scene_id = scenes[index].data.id;
+                var scene_name = scenes[index].data.name;
+                var aWrapper = document.createElement("a");
+                aWrapper.classList.add("room");
+                aWrapper.setAttribute("data-id", scene_id);
+                var liWrapper = document.createElement("li");
+                liWrapper.classList.add("text");
+                liWrapper.innerHTML = scene_name;
+                aWrapper.appendChild(liWrapper);
+
+                aWrapper.addEventListener("click", function () {
+                    curSceneIndex = index;
+                    switchScene(scenes[index]);
+                    if (document.body.classList.contains("mobile")) {
+                        Room.hideList();
+                    }
+                });
+
+                Room.listElementWrapper.appendChild(aWrapper);
+            });
+        },
+        updateName: function (name) {
+            this.name.html(sanitize(name));
+        },
+        hideList: function () {
+            Room.listElement[0].classList.remove("enabled");
+            Room.listToggleElement[0].classList.remove("enabled");
+        },
+    };
+    Room.init();
+
+    var Scene = {
+        findById: function (sceneId) {
+            for (var i = 0; i < scenes.length; i++) {
+                if (scenes[i].data.id === sceneId) {
+                    curSceneIndex = i;
+                    return scenes[i];
+                }
+            }
+            return null;
+        },
+        findDataById: function (sceneId) {
+            for (var i = 0; i < data.scenes.length; i++) {
+                if (data.scenes[i].id === sceneId) {
+                    return data.scenes[i];
+                }
+            }
+            return null;
+        },
+        updateList: function (curId) {
+            var roomEls = document.querySelectorAll("#room-list .room");
+            for (var i = 0; i < roomEls.length; i++) {
+                var el = roomEls[i];
+                if (el.getAttribute("data-id") === curId) {
+                    el.classList.add("current");
+                } else {
+                    el.classList.remove("current");
+                }
+            }
+        },
+        updateIndex: function () {
+            if (curSceneIndex >= 1) {
+                curSceneIndex = 1;
+            }
+        },
+    };
 });
