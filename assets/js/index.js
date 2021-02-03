@@ -165,17 +165,17 @@ $(function () {
                     pitch: hotspot.pitch,
                 });
             });
-
-            // Link Info Hotspot
-            data.infoHotspots.forEach(function (hotspot) {
-                var element = createInfoHotspotElement(hotspot);
-                scene
-                    .hotspotContainer()
-                    .createHotspot(element, {
-                        yaw: hotspot.yaw,
-                        pitch: hotspot.pitch,
-                    });
-            });
+            
+            if( typeof data.infoHotspots !== 'undefined'){
+                // Link Info Hotspot
+                data.infoHotspots.forEach(function (hotspot) {
+                    var element = createInfoHotspotElement(hotspot);
+                    hotspotContainer.createHotspot(element, {
+                            yaw: hotspot.yaw,
+                            pitch: hotspot.pitch,
+                        });
+                });
+            }
 
             return {
                 data: data,
