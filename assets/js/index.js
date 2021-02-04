@@ -188,56 +188,6 @@ $(function () {
         switchScene(scenes[curSceneIndex]);
     }
 
-    // Create Scenes
-    // var scenes = data.scenes.map( function(data) {
-    //     var urlPrefix = "data/tiles";
-    //     var imageSource = Marzipano.ImageUrlSource.fromString(
-    //         urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
-    //         {
-    //             cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg"
-    //         }
-    //     );
-
-    //     var geometry = new Marzipano.CubeGeometry(data.levels);
-    //     var limiter = Marzipano.RectilinearView.limit.traditional(
-    //             data.faceSize,
-    //             100 * Math.PI / 180,
-    //             120 * Math.PI / 180
-    //         );
-    //     var view = new Marzipano.RectilinearView(
-    //         data.initialViewParameters,
-    //         limiter
-    //     );
-
-    //     var scene = viewer.createScene({
-    //         source: imageSource,
-    //         geometry: geometry,
-    //         view: view,
-    //         pinFirstLevel: true
-    //     });
-
-    //     // Create Info Hotspot
-    //     var hotspotContainer = scene.hotspotContainer();
-    //     hotspotContainer.createHotspot(
-    //         $("#ihs-login-form")[0],
-    //         { yaw: 1, pitch: 0.1 }
-    //     );
-    //     hotspotContainer.createHotspot(
-    //         $("#ihs-register-form")[0],
-    //         { yaw: 1.5, pitch: 0.1 }
-    //     );
-    //     hotspotContainer.createHotspot(
-    //         $("#ihs-user")[0],
-    //         { yaw: 1, pitch: 0.1 }
-    //     );
-
-    //     return {
-    //         data: data,
-    //         scene: scene,
-    //         view: view
-    //     }
-    // });
-
     // switchScene(scenes[0]);
 
     function switchScene(scene) {
@@ -567,8 +517,8 @@ $(function () {
             }
         },
         updateIndex: function () {
-            if (curSceneIndex >= 1) {
-                curSceneIndex = 1;
+            if (curSceneIndex >= 0) {
+                curSceneIndex = 0;
             }
         },
     };
