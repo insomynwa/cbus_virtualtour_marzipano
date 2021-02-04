@@ -127,12 +127,14 @@ $(function () {
     var scenes = null;
     function createScene(dataScene) {
         scenes = dataScene.scenes.map(function (data) {
+            var d = new Date();
+            var n = d.getTime();
             var urlPrefix = "data/tiles";
             var imageSource = Marzipano.ImageUrlSource.fromString(
-                urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg" + "?nochace=" + Math.floor((Math.random() * 10000) + 1),
+                urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg" + "?nochace=" + n,
                 {
                     cubeMapPreviewUrl:
-                        urlPrefix + "/" + data.id + "/preview.jpg" + "?nochace=" + Math.floor((Math.random() * 10000) + 1),
+                        urlPrefix + "/" + data.id + "/preview.jpg" + "?nochace=" + n,
                 }
             );
 
