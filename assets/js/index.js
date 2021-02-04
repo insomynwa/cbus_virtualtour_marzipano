@@ -129,10 +129,10 @@ $(function () {
         scenes = dataScene.scenes.map(function (data) {
             var urlPrefix = "data/tiles";
             var imageSource = Marzipano.ImageUrlSource.fromString(
-                urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
+                urlPrefix + "/" + data.id + "/{z}/{f}/{y}/{x}.jpg" + "?nochace=" + Math.floor((Math.random() * 10000) + 1),
                 {
                     cubeMapPreviewUrl:
-                        urlPrefix + "/" + data.id + "/preview.jpg",
+                        urlPrefix + "/" + data.id + "/preview.jpg" + "?nochace=" + Math.floor((Math.random() * 10000) + 1),
                 }
             );
 
