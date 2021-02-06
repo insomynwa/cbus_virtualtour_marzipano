@@ -190,13 +190,12 @@ $(function () {
         switchScene(scenes[curSceneIndex]);
     }
 
-    // switchScene(scenes[0]);
-
-    function switchScene(scene) {
-        scene.view.setParameters(scene.data.initialViewParameters);
-        scene.scene.switchTo();
-        Room.updateName(scene.data.name);
-        Scene.updateList(scene.data.id);
+    function switchScene(sceneTo) {
+        sceneTo.view.setParameters(sceneTo.data.initialViewParameters);
+        sceneTo.scene.switchTo({transitionDuration: 300});
+        Room.updateName(sceneTo.data.name);
+        Scene.updateList(sceneTo.data.id);
+        console.log(sceneTo.view.fov());
     }
 
     function sanitize(s) {

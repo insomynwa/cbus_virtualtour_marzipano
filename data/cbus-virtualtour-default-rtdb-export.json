@@ -1,0 +1,272 @@
+{
+  "scenes": [
+    {
+      "faceSize": 1344,
+      "id": "scene_01",
+      "infoHotspots": [
+        {
+          "pitch": 0.08631449503711863,
+          "text": "Ipsum",
+          "title": "Lorem",
+          "yaw": 2.9136602914783385
+        }
+      ],
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.21441539843820223,
+          "rotation": 0,
+          "target": "scene_02",
+          "yaw": -0.5194181559084008
+        }
+      ],
+      "name": "scene_01"
+    },
+    {
+      "faceSize": 1344,
+      "id": "scene_02",
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.18969331244392507,
+          "rotation": 6.283185307179586,
+          "target": "scene_03",
+          "yaw": -1.6649525974723964
+        },
+        {
+          "pitch": 0.36307989735163915,
+          "rotation": 0,
+          "target": "scene_01",
+          "yaw": 1.642893592339803
+        },
+        {
+          "pitch": 0.3335172608440651,
+          "rotation": 1.5707963267948966,
+          "target": "scene_06",
+          "yaw": -1.5823951532621106
+        }
+      ],
+      "name": "scene_02"
+    },
+    {
+      "faceSize": 1344,
+      "id": "scene_03",
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.45155364753894567,
+          "rotation": 0,
+          "target": "scene_02",
+          "yaw": 3.0921058362695195
+        },
+        {
+          "pitch": 0.4806433420767391,
+          "rotation": 0,
+          "target": "scene_04",
+          "yaw": -0.06734848399627502
+        }
+      ],
+      "name": "scene_03"
+    },
+    {
+      "faceSize": 1344,
+      "id": "scene_04",
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.4165165391340402,
+          "rotation": 0,
+          "target": "scene_03",
+          "yaw": 3.102159701836179
+        },
+        {
+          "pitch": 0.22129720679663123,
+          "rotation": 5.497787143782138,
+          "target": "scene_05",
+          "yaw": 0.8379714778287255
+        }
+      ],
+      "name": "scene_04"
+    },
+    {
+      "faceSize": 1344,
+      "id": "scene_05",
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.23786083580989725,
+          "rotation": 0.7853981633974483,
+          "target": "scene_04",
+          "yaw": -2.2731692030367814
+        }
+      ],
+      "name": "scene_05"
+    },
+    {
+      "faceSize": 1344,
+      "id": "scene_06",
+      "initialViewParameters": {
+        "fov": 1.3544032240414072,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "levels": [
+        {
+          "fallbackOnly": true,
+          "size": 256,
+          "tileSize": 256
+        },
+        {
+          "size": 512,
+          "tileSize": 512
+        },
+        {
+          "size": 1024,
+          "tileSize": 512
+        },
+        {
+          "size": 2048,
+          "tileSize": 512
+        }
+      ],
+      "linkHotspots": [
+        {
+          "pitch": 0.3840551484738661,
+          "rotation": 8.63937979737193,
+          "target": "scene_02",
+          "yaw": 0.8966968950526848
+        }
+      ],
+      "name": "scene_06"
+    }
+  ],
+  "users": {
+    "7e8tCYZI2kOvAWRJ3DYnu6D5t362": {
+      "name": "kang cot",
+      "phone": "1234567891"
+    },
+    "Op2NNMFm5ITEyf8DGn4h16lbH2r2": {
+      "name": "Cemek",
+      "phone": "1234567891"
+    },
+    "RrKQbslP0BXZayXpE6MblzlsXNo2": {
+      "name": "Test",
+      "phone": "12345678901"
+    }
+  }
+}
