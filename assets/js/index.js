@@ -190,12 +190,15 @@ $(function () {
         switchScene(scenes[curSceneIndex]);
     }
 
-    function switchScene(sceneTo) {
-        sceneTo.view.setParameters(sceneTo.data.initialViewParameters);
-        sceneTo.scene.switchTo({transitionDuration: 300});
+    function switchScene(sceneTo,lookAt = null) {
+        if(lookAt == null){
+            lookAt = sceneTo.data.initialViewParameters;
+        }
+        // console.log(lookAt);
+        sceneTo.view.setParameters(lookAt);
+        sceneTo.scene.switchTo({transitionDuration: 500});
         Room.updateName(sceneTo.data.name);
         Scene.updateList(sceneTo.data.id);
-        console.log(sceneTo.view.fov());
     }
 
     function sanitize(s) {
@@ -229,7 +232,12 @@ $(function () {
 
         // Add click event handler.
         wrapper.addEventListener("click", function () {
-            switchScene(Scene.findById(hotspot.target));
+            var lookAt = null;
+            if(typeof hotspot.lookAt !== undefined){
+                lookAt = hotspot.lookAt;
+            }
+            // console.log(hotspot.lookAt);
+            switchScene(Scene.findById(hotspot.target), lookAt);
         });
 
         // Prevent touch and scroll events from reaching the parent element.
@@ -468,8 +476,9 @@ $(function () {
                 aWrapper.appendChild(liWrapper);
 
                 aWrapper.addEventListener("click", function () {
+                    var lookAt = Scene.findLookAtBySceneTargetId(scenes[curSceneIndex].data.linkHotspots, scenes[index].data.id);
                     curSceneIndex = index;
-                    switchScene(scenes[index]);
+                    switchScene(scenes[index], lookAt);
                     if (document.body.classList.contains("mobile")) {
                         Room.hideList();
                     }
@@ -502,6 +511,14 @@ $(function () {
             for (var i = 0; i < data.scenes.length; i++) {
                 if (data.scenes[i].id === sceneId) {
                     return data.scenes[i];
+                }
+            }
+            return null;
+        },
+        findLookAtBySceneTargetId: function(curLinkHotspotsScene, sceneTargetId){
+            for(var i=0; i< curLinkHotspotsScene.length; i++){
+                if(curLinkHotspotsScene[i].target == sceneTargetId){
+                    return curLinkHotspotsScene[i].lookAt;
                 }
             }
             return null;
